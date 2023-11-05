@@ -1,0 +1,17 @@
+spring:
+  main:
+    allow-circular-references: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/elearning
+    username: root
+  #    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+  application:
+    name: course-service
+
+server:
+  port: 8080
