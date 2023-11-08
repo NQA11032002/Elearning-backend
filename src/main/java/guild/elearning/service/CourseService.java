@@ -2,6 +2,7 @@ package guild.elearning.service;
 
 import guild.elearning.entity.Course;
 import guild.elearning.repository.ICourseRepository;
+import guild.elearning.response.ResponseCourse;
 import guild.elearning.response.ResponseObject;
 import guild.elearning.service.interfaces.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +19,30 @@ public class CourseService implements ICourseService {
     private ICourseRepository iCourseRepository;
 
     @Override
-    public ResponseObject getAllCourse(Integer page, Integer records) {
+    public ResponseCourse getAllCourse(Integer page, Integer records) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageRequest = PageRequest.of(page, records, sort);
 
         List<Course> courses = iCourseRepository.findAll(pageRequest).getContent();
+        int totalPage = getTotalPage(records);
 
         if (courses.isEmpty()) {
-            return new ResponseObject(HttpStatus.NOT_FOUND.name(), "No courses found in the course table", courses);
+            return new ResponseCourse(HttpStatus.NOT_FOUND.name(), "No courses found in the course table", courses, 0);
         }
 
-        return new ResponseObject(HttpStatus.OK.name(), "Found " + courses.size() + " courses in the course table", courses);
+        return new ResponseCourse(HttpStatus.OK.name(), "Found " + courses.size() + " courses in the course table", courses, totalPage);
     }
+
+    @Override
+    public int getTotalPage(Integer records) {
+        List<Course> courses = iCourseRepository.findAll();
+
+        double totalPage = (double)courses.size() / records;
+        int roundedTotalPage = (int) Math.round(totalPage);
+
+        return roundedTotalPage;
+    }
+
 
     @Override
     public ResponseObject findCourseByID(Integer id) {
@@ -87,7 +100,6 @@ public class CourseService implements ICourseService {
             updatedCourse.setPrice(course.getPrice());
             updatedCourse.setCount(course.getCount());
             updatedCourse.setUrlImage(course.getUrlImage());
-            updatedCourse.setExpired(course.getExpired());
             updatedCourse.setStatus(course.getStatus());
 
             iCourseRepository.save(updatedCourse);
@@ -95,7 +107,7 @@ public class CourseService implements ICourseService {
             return new ResponseObject(HttpStatus.OK.name(), "Update course with the given ID: " + course.getId() + " successful", course);
         }catch (Exception e)
         {
-            return new ResponseObject(HttpStatus.INTERNAL_SERVER_ERROR.name(), "An error occurred during the course update process", null);
+            return new ResponseObject(HttpStatus.INTERNAL_SERVER_ERROR.name(), "An error occurred during the course update process", e.getMessage());
         }
     }
 
@@ -109,7 +121,7 @@ public class CourseService implements ICourseService {
             {
                 iCourseRepository.delete(foundCourse.get());
 
-                return new ResponseObject(HttpStatus.OK.name(), "Delete course with the given ID: " + id + " successful", foundCourse);
+                return new ResponseObject(HttpStatus.OK.name(), "Delete course with the given ID: " + id + " successful", null);
             }
 
             return new ResponseObject(HttpStatus.OK.name(), "No course found to update with the given ID: " + id, null);

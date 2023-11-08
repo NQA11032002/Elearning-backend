@@ -2,6 +2,7 @@ package guild.elearning.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class Course {
     @Column(name = "title", length = 150)
     private String title;
 
+    @Column(nullable = false, name = "description", columnDefinition = "TEXT")
     private String description;
 
     private double price;
@@ -39,11 +42,10 @@ public class Course {
 
     private String urlImage;
 
-    private Date expired;
+    private LocalDate expired;
 
     private Boolean status;
 
-    @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createdAt;
