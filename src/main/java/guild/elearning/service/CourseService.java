@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService implements ICourseService {
@@ -19,11 +21,30 @@ public class CourseService implements ICourseService {
     private ICourseRepository iCourseRepository;
 
     @Override
-    public ResponseCourse getAllCourse(Integer page, Integer records) {
+    public ResponseCourse getAllCourse(Integer page, Integer records, Map<String, String> filters) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageRequest = PageRequest.of(page, records, sort);
+        List<Course> courses = null;
+        courses = iCourseRepository.findAll(pageRequest).getContent();
 
-        List<Course> courses = iCourseRepository.findAll(pageRequest).getContent();
+        if (!filters.isEmpty()) {
+            if (filters.containsKey("search") && !filters.get("search").isEmpty()) {
+                String searchKeyword = filters.get("search").toLowerCase();
+                courses = courses.stream()
+                        .filter(course -> course.getTitle().toLowerCase().contains(searchKeyword))
+                        .collect(Collectors.toList());
+            }
+
+            if((filters.containsKey("priceFrom") && !filters.get("priceFrom").isEmpty()) && filters.containsKey("priceTo") && !filters.get("priceTo").isEmpty()){
+                double priceFrom = Double.parseDouble(filters.get("priceFrom"));
+                double priceTo = Double.parseDouble(filters.get("priceTo"));
+
+                courses = courses.stream().filter(course -> {
+                    return course.getPrice() >= priceFrom && course.getPrice() <= priceTo;
+                }).collect(Collectors.toList());
+            }
+        }
+
         int totalPage = getTotalPage(records);
 
         if (courses.isEmpty()) {
@@ -37,7 +58,7 @@ public class CourseService implements ICourseService {
     public int getTotalPage(Integer records) {
         List<Course> courses = iCourseRepository.findAll();
 
-        double totalPage = (double)courses.size() / records;
+        double totalPage = (double) courses.size() / records;
         int roundedTotalPage = (int) Math.round(totalPage);
 
         return roundedTotalPage;
@@ -68,13 +89,11 @@ public class CourseService implements ICourseService {
 
     @Override
     public ResponseObject insertCourse(Course course) {
-        try
-        {
+        try {
             iCourseRepository.save(course);
 
             return new ResponseObject(HttpStatus.CREATED.name(), "Insert new course successful", course);
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             return new ResponseObject(HttpStatus.BAD_REQUEST.name(), "Insert new course failed", e.getMessage());
 
         }
@@ -82,12 +101,10 @@ public class CourseService implements ICourseService {
 
     @Override
     public ResponseObject updateCourse(Course course) {
-        try
-        {
+        try {
             var foundCourse = iCourseRepository.findById(course.getId());
 
-            if(!foundCourse.isPresent())
-            {
+            if (!foundCourse.isPresent()) {
                 return new ResponseObject(HttpStatus.NOT_FOUND.name(), "No courses found", null);
             }
 
@@ -105,28 +122,24 @@ public class CourseService implements ICourseService {
             iCourseRepository.save(updatedCourse);
 
             return new ResponseObject(HttpStatus.OK.name(), "Update course with the given ID: " + course.getId() + " successful", course);
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             return new ResponseObject(HttpStatus.INTERNAL_SERVER_ERROR.name(), "An error occurred during the course update process", e.getMessage());
         }
     }
 
     @Override
     public ResponseObject deleteCourse(Integer id) {
-        try
-        {
+        try {
             var foundCourse = iCourseRepository.findById(id);
 
-            if(foundCourse.isPresent())
-            {
+            if (foundCourse.isPresent()) {
                 iCourseRepository.delete(foundCourse.get());
 
                 return new ResponseObject(HttpStatus.OK.name(), "Delete course with the given ID: " + id + " successful", null);
             }
 
             return new ResponseObject(HttpStatus.OK.name(), "No course found to update with the given ID: " + id, null);
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             return new ResponseObject(HttpStatus.INTERNAL_SERVER_ERROR.name(), "An error occurred during the course delete process", null);
         }
     }

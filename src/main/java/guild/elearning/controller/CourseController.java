@@ -8,6 +8,9 @@ import guild.elearning.service.interfaces.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping(path = "api/course")
 @CrossOrigin("*")
@@ -17,8 +20,8 @@ public class CourseController implements ICourseController {
 
     @Override
     @GetMapping("")
-    public ResponseCourse getAllCourse(@RequestParam("page") Integer page, @RequestParam("records") Integer records){
-        return iCourseService.getAllCourse(page, records);
+    public ResponseCourse getAllCourse(@RequestParam Integer page, @RequestParam Integer records, @RequestParam Map<String, String> filters){
+        return iCourseService.getAllCourse(page, records, filters);
     }
 
     @Override

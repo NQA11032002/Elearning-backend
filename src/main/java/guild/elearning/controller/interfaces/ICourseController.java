@@ -4,8 +4,11 @@ import guild.elearning.entity.Course;
 import guild.elearning.response.ResponseCourse;
 import guild.elearning.response.ResponseObject;
 
+import java.util.List;
+import java.util.Map;
+
 public interface ICourseController {
-    public ResponseCourse getAllCourse(Integer page, Integer records);
+    public ResponseCourse getAllCourse(Integer page, Integer records, Map<String, String> filters);
     public ResponseObject findCourseByID(Integer id);
     public ResponseObject findCourseByTitle(String title);
     public ResponseObject insertCourse(Course course);
