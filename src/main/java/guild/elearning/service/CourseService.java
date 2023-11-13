@@ -43,6 +43,24 @@ public class CourseService implements ICourseService {
                     return course.getPrice() >= priceFrom && course.getPrice() <= priceTo;
                 }).collect(Collectors.toList());
             }
+
+            if(filters.containsKey("education") && !filters.get("education").isEmpty())
+            {
+                Integer education = Integer.parseInt(filters.get("education"));
+
+                courses = courses.stream().filter(course -> {
+                    return course.getEducationID() == education;
+                }).collect(Collectors.toList());
+            }
+
+            if(filters.containsKey("category") && !filters.get("category").isEmpty())
+            {
+                Integer category = Integer.parseInt(filters.get("category"));
+
+                courses = courses.stream().filter(course -> {
+                    return course.getCategoryID() == category;
+                }).collect(Collectors.toList());
+            }
         }
 
         int totalPage = getTotalPage(records);
