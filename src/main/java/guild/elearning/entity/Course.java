@@ -1,6 +1,7 @@
 package guild.elearning.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -38,6 +39,8 @@ public class Course {
 
     private double price;
 
+    private int reduce;
+
     private Integer count;
 
     private String urlImage;
@@ -48,6 +51,7 @@ public class Course {
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date createdAt;
 
     @OneToMany(mappedBy = "course")
@@ -71,5 +75,9 @@ public class Course {
     @OneToMany(mappedBy = "course")
     @JsonManagedReference(value = "reference-course-document")
     private List<CourseDocument> courseDocuments;
+
+    @OneToMany(mappedBy = "course")
+    @JsonManagedReference(value = "reference-course-image")
+    private List<CourseImage> courseImages;
 
 }

@@ -22,7 +22,7 @@ public class CourseEvaluationController implements ICourseEvaluationController {
 
     @Override
     @PostMapping("")
-    public ResponseObject insertEvaluation(@RequestParam CourseEvaluation courseEvaluation) {
+    public ResponseObject insertEvaluation(@RequestBody CourseEvaluation courseEvaluation) {
         return courseEvaluationService.insertEvaluation(courseEvaluation);
     }
 
