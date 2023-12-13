@@ -43,7 +43,6 @@ public class Course {
 
     private Integer count;
 
-    private String urlImage;
 
     private LocalDate expired;
 

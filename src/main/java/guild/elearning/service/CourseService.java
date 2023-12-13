@@ -28,6 +28,7 @@ public class CourseService implements ICourseService {
         courses = iCourseRepository.findAll(pageRequest).getContent();
 
         if (!filters.isEmpty()) {
+            System.out.print(filters);
             if (filters.containsKey("search") && !filters.get("search").isEmpty()) {
                 String searchKeyword = filters.get("search").toLowerCase();
                 courses = courses.stream()
@@ -134,7 +135,6 @@ public class CourseService implements ICourseService {
             updatedCourse.setDescription(course.getDescription());
             updatedCourse.setPrice(course.getPrice());
             updatedCourse.setCount(course.getCount());
-            updatedCourse.setUrlImage(course.getUrlImage());
             updatedCourse.setStatus(course.getStatus());
 
             iCourseRepository.save(updatedCourse);
