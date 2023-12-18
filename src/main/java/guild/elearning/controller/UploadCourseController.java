@@ -3,6 +3,7 @@ package guild.elearning.controller;
 import com.amazonaws.HttpMethod;
 import guild.elearning.controller.interfaces.IUploadCourseController;
 import guild.elearning.service.UploadCourseService;
+import guild.elearning.service.interfaces.IUploadCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @RequestMapping(path = "api/upload-course")
 public class UploadCourseController implements IUploadCourseController {
     @Autowired
-    private UploadCourseService fileService;
+    private IUploadCourseService fileService;
 
     @Override
     @PostMapping("")
