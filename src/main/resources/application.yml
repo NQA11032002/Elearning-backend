@@ -1,0 +1,28 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: myphamskincares@gmail.com
+    password: mpckijfvlqsvvwds
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  main:
+    allow-circular-references: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/userservice
+    username: root
+  #    password:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+  application:
+    name: security-service
+
+server:
+  port: 8087
