@@ -15,3 +15,11 @@ spring:
 
 server:
   port: 8087
+
+#AWS credentials
+aws:
+  accessKey: AKIAWHE75AJY6B353JG7
+  secretKey: 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
+  region: ap-southeast-1
+  s3:
+    bucket: elearning-media-2023
