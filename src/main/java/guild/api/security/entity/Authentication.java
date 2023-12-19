@@ -27,10 +27,6 @@ public class Authentication {
     private Integer userID;
 
     @Nullable
-    @Column(name = "UserName")
-    private String userName;
-
-    @Nullable
     @Column(name = "Token")
     private String token;
 

@@ -13,7 +13,7 @@ spring:
   main:
     allow-circular-references: true
   datasource:
-    url: jdbc:mysql://localhost:3306/userservice
+    url: jdbc:mysql://localhost:3306/elearning_user
     username: root
   #    password:
   jpa:
@@ -22,7 +22,7 @@ spring:
     show-sql: true
 
   application:
-    name: security-service
+    name: user-service
 
 server:
-  port: 8087
+  port: 8086

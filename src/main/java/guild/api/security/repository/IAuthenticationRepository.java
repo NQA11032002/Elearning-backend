@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface IAuthenticationRepository extends JpaRepository<Authentication, Integer> {
     public Authentication findAuthenticationByUserID(Integer id);
 
-    public Authentication findAuthenticationByUserName(String userName);
+//    public Authentication findAuthenticationByUserName(String userName);
 
 }

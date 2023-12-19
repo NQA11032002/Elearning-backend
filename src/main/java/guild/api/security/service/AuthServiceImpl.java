@@ -80,11 +80,11 @@ public class AuthServiceImpl implements IAuthService {
             //generate token
             var jwtToken = jwtService.generateToken(user);
 
-            boolean checkToken = checkToken(user.getUsername());
+            boolean checkToken = checkToken(user.getId());
 
             if(checkToken)
             {
-                Authentication authentication = iAuthenticationRepository.findAuthenticationByUserName(user.getUsername());
+                Authentication authentication = iAuthenticationRepository.findAuthenticationByUserID(user.getId());
 
                 authentication.setToken(jwtToken);
                 authentication.setUserID(user.getId());
@@ -97,7 +97,6 @@ public class AuthServiceImpl implements IAuthService {
                 Authentication authentication = new Authentication();
                 authentication.setToken(jwtToken);
                 authentication.setUserID(user.getId());
-                authentication.setUserName(user.getUsername());
                 authentication.setExpirationTime(jwtService.getExpirationTimeFromToken(jwtToken, jwtService.getSECRET_KEY()));
 
                 iAuthenticationRepository.save(authentication);
@@ -128,22 +127,17 @@ public class AuthServiceImpl implements IAuthService {
     }
     @Override
     public ResponseObject logout(String token) {
-        String username = jwtService.extractUsername(token);
+        Integer userID = jwtService.getUserID(token);
 
-        if(!username.isEmpty())
-        {
-            Authentication authentication = iAuthenticationRepository.findAuthenticationByUserName(username);
-            iAuthenticationRepository.delete(authentication);
+        Authentication authentication = iAuthenticationRepository.findAuthenticationByUserID(userID);
+        iAuthenticationRepository.delete(authentication);
 
-            return new ResponseObject(HttpStatus.OK.name(), "Logout successfully", null);
-        }
-
-        return new ResponseObject(HttpStatus.OK.name(), "Logout failed", null);
+        return new ResponseObject(HttpStatus.OK.name(), "Logout successfully", null);
     }
 
 
-    public boolean checkToken(String userName){
-        var auth = iAuthenticationRepository.findAuthenticationByUserName(userName);
+    public boolean checkToken(Integer userID){
+        var auth = iAuthenticationRepository.findAuthenticationByUserID(userID);
 
         if(auth != null)
         {
