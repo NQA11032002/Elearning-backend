@@ -1,14 +1,18 @@
 package guild.elearning.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import guild.elearning.service.interfaces.IUploadCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.amazonaws.HttpMethod;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.io.IOException;
+import java.util.UUID;
 
 @Service
 public class UploadCourseService implements IUploadCourseService {
@@ -18,12 +22,28 @@ public class UploadCourseService implements IUploadCourseService {
     @Value("${aws.s3.bucket}")
     private String bucketName;
 
-    @Override
-    public String generatePreSignedUrl(String filePath, HttpMethod http) {
+    @Autowired
+    private AmazonS3Client amazonS3Client;
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        cal.add(Calendar.MINUTE,2);
-        return amazonS3.generatePresignedUrl(bucketName,filePath,cal.getTime(),http).toString();
+
+    @Override
+    public String uploadFile(MultipartFile file) {
+        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+
+        String key = UUID.randomUUID().toString() + "." + extension;
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(file.getSize());
+        metadata.setContentType(file.getContentType());
+
+        try{
+            amazonS3Client.putObject(bucketName, key, file.getInputStream(), metadata);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        amazonS3Client.setObjectAcl(bucketName, key, CannedAccessControlList.PublicRead);
+
+        return amazonS3Client.getResourceUrl(bucketName, key);
     }
 }

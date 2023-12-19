@@ -7,7 +7,6 @@ import ws.schild.jave.EncoderException;
 import java.net.MalformedURLException;
 
 public interface ICourseVideoController {
-    public ResponseObject getInfoVideo(String videoUrl) throws EncoderException, MalformedURLException;
 
     public ResponseObject getAllVideo();
 

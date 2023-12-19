@@ -1,9 +1,7 @@
 package guild.elearning.service;
 
-import guild.elearning.entity.Course;
 import guild.elearning.entity.VideoCourse;
 import guild.elearning.repository.ICourseVideoRepository;
-import guild.elearning.response.ResponseCourse;
 import guild.elearning.response.ResponseObject;
 import guild.elearning.service.interfaces.ICourseVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,7 @@ public class CourseVideoService implements ICourseVideoService {
 
     @Override
     public ResponseObject getVideoByThematic(Integer id) {
-        var videos = courseVideoRepository.findByThematicCourse(id);
+        var videos = courseVideoRepository.findVideoCourseByThematicID(id);
 
         if (!videos.isEmpty()) {
             return new ResponseObject(HttpStatus.NOT_FOUND.name(), "No videos found with the given thematic ID: " + id, videos);

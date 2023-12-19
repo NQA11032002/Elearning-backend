@@ -15,26 +15,11 @@ import ws.schild.jave.MultimediaObject;
 import ws.schild.jave.EncoderException;
 
 @RestController
-@RequestMapping(path = "api/course-media")
+@RequestMapping(path = "api/course-video")
+@CrossOrigin("*")
 public class CourseVideoController implements ICourseVideoController {
     @Autowired
     private ICourseVideoService courseVideoService;
-
-    @GetMapping("/info")
-    public ResponseObject getInfoVideo(@RequestParam String videoUrl) throws EncoderException, MalformedURLException {
-
-        URL url = new URL(videoUrl);
-
-        MultimediaObject multimediaObject = new MultimediaObject(url);
-
-        MultimediaInfo multimediaInfo = multimediaObject.getInfo();
-
-        long minutes = (multimediaInfo.getDuration() / 1000) / 60;
-
-        long seconds = (multimediaInfo.getDuration() / 1000) % 60;
-
-        return new ResponseObject(HttpStatus.OK.name(),  minutes + ":" + seconds, multimediaInfo);
-    }
 
     @Override
     @GetMapping("")

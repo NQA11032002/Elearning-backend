@@ -23,7 +23,7 @@ public class VideoCourse {
 
     private Integer thematicID;
 
-    private  String name;
+    private String name;
 
     private String urlVideo;
 
