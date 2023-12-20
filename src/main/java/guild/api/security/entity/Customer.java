@@ -31,6 +31,10 @@ public class Customer {
     private String fullName;
 
     @Nullable
+    @Column(name = "Email", length = 255)
+    private String email;
+
+    @Nullable
     @Column(name = "Phone", length = 20)
     private String phone;
 
