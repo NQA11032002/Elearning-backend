@@ -27,6 +27,18 @@ public class OrderController implements IOrderController {
     }
 
     @Override
+    @GetMapping("/find-course/{userID}")
+    public ResponseObject findOrderByUserID(@PathVariable("userID") Integer userID) {
+        return orderService.findOrderByUserID(userID);
+    }
+
+    @Override
+    @GetMapping("/course")
+    public boolean findOrderByCourseID(@RequestParam("courseID") Integer courseID, @RequestParam("userID") Integer userID) {
+        return orderService.findOrderByCourseID(courseID, userID);
+    }
+
+    @Override
     @PostMapping("")
     public ResponseObject insertOrder(@RequestBody Order order) {
         return orderService.insertOrder(order);

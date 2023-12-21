@@ -15,6 +15,17 @@ public class OrderService implements IOrderService{
     private IOderRepository ioderRepository;
 
     @Override
+    public ResponseObject findOrderByUserID(Integer userID) {
+        List<Order> orders = ioderRepository.findByUserID(userID);
+
+        if (orders.isEmpty()) {
+            return new ResponseObject(HttpStatus.NOT_FOUND.name(), "No orders found in the course table", orders);
+        }
+
+        return new ResponseObject(HttpStatus.OK.name(), "Found " + orders.size() + " orders in the product table", orders);
+    }
+
+    @Override
     public ResponseObject getAllOrder() {
         List<Order> orders = ioderRepository.findAll();
 
@@ -34,6 +45,17 @@ public class OrderService implements IOrderService{
         }
 
         return new ResponseObject(HttpStatus.OK.name(), "Found order with the given ID: " + id, order.get());
+    }
+
+    @Override
+    public boolean findOrderByCourseID(Integer courseID, Integer userID) {
+        var order = ioderRepository.findByCourseIDAndUserID(courseID, userID);
+
+        if (order != null) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override

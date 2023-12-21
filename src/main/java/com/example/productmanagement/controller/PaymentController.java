@@ -4,7 +4,6 @@ import com.example.productmanagement.controller.interfaces.IPaymentController;
 import com.example.productmanagement.entity.Payment;
 import com.example.productmanagement.response.ResponseObject;
 import com.example.productmanagement.service.PaymentService;
-import com.example.productmanagement.service.ShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,18 +1,19 @@
 package com.example.productmanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Data
 @Entity
 @Table(name = "Payment")
 public class Payment {
@@ -20,16 +21,21 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer OrderID;
+    @Column(name = "orderID")
+    private Integer orderID;
 
-    private Date PaymentDate;
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private Date createdAt;
 
-    @Column(name = "PaymentMethod", length = 255)
-    private String PaymentMethod;
+    @Column(name = "paymentMethod", length = 255)
+    private String paymentMethod;
 
     @OneToOne
-    @JoinColumn(name = "OrderID", referencedColumnName = "id", insertable = false, updatable = false)
-    @JsonBackReference("reference-order-payment")
+    @JoinColumn(name = "orderID", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonManagedReference("reference-payment-order")
     private Order order;
 
 }

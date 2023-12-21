@@ -6,6 +6,8 @@ import com.example.productmanagement.entity.Order;
 public interface IOrderService {
     public ResponseObject getAllOrder();
     public ResponseObject findOrderById(Integer id);
+    public ResponseObject findOrderByUserID(Integer userID);
+    public boolean findOrderByCourseID(Integer courseID, Integer userID);
     public ResponseObject getOrderByUserID(Integer userID);
     public ResponseObject insertOrder(Order order);
     public ResponseObject updateOrder(Integer id, Order order);

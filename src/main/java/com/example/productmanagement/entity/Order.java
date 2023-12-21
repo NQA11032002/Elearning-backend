@@ -1,19 +1,21 @@
 package com.example.productmanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 import java.util.List;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Data
 @Entity
 @Table(name = "`Order`")
 public class Order {
@@ -21,36 +23,26 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String fullName;
+    @Column(name = "userID", updatable=false)
+    private Integer userID;
 
-    private String phone;
+    @Column(name = "courseID", updatable=false)
+    private Integer courseID;
 
-    private String address;
+    private String codeOrder;
 
-    private String email;
+    private Double totalPrice;
 
-    private String note;
-
-    private String OrderDate;
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private Date createdAt;
 
     @Column(name = "Status", length = 255)
-    private String Status;
-
-    private Double TotalAmount;
+    private String status;
 
     @OneToOne(mappedBy = "order")
-    @JsonManagedReference("reference-order-orderhistory")
-    private OrderHistory orderHistories;
-
-    @OneToMany(mappedBy = "order")
-    @JsonManagedReference("reference-order-orderitem")
-    private List<OrderItem> orderItems;
-
-    @OneToOne(mappedBy = "order")
-    @JsonManagedReference("reference-order-payment")
+    @JsonBackReference("reference-payment-order")
     private Payment payment;
-
-    @OneToOne(mappedBy = "order")
-    @JsonManagedReference("reference-order-shipment")
-    private Shipment shipment;
 }
