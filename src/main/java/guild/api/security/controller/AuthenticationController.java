@@ -6,7 +6,6 @@ import guild.api.security.request.RegisterRequest;
 import guild.api.security.response.AuthenticationResponse;
 import guild.api.security.response.ResponseObject;
 import guild.api.security.service.interfaces.IAuthService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

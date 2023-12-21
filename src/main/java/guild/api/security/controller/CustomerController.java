@@ -22,7 +22,6 @@ public class CustomerController implements ICustomerController {
         return iCustomerService.getAllCustomer();
     }
 
-    @CrossOrigin(origins = "*")
     @Override
     @GetMapping(path = "/{id}")
     public ResponseObject findCustomerById(@PathVariable("id") Integer id) {
