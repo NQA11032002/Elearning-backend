@@ -44,7 +44,8 @@ public class CourseVideoService implements ICourseVideoService {
         } catch (Exception e) {
             return new ResponseObject(HttpStatus.BAD_REQUEST.name(), "Insert new videoCourse failed", e.getMessage());
 
-        }    }
+        }
+    }
 
     @Override
     public ResponseObject updateVideo(VideoCourse videoCourse) {

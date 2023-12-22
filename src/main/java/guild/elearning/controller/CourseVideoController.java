@@ -5,14 +5,7 @@ import guild.elearning.entity.VideoCourse;
 import guild.elearning.response.ResponseObject;
 import guild.elearning.service.interfaces.ICourseVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ws.schild.jave.info.MultimediaInfo;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import ws.schild.jave.MultimediaObject;
-import ws.schild.jave.EncoderException;
 
 @RestController
 @RequestMapping(path = "api/course-video")
