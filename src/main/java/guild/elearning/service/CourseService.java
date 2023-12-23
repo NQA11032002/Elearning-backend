@@ -1,6 +1,7 @@
 package guild.elearning.service;
 
 import guild.elearning.entity.Course;
+import guild.elearning.repository.ICourseImageRepository;
 import guild.elearning.repository.ICourseRepository;
 import guild.elearning.response.ResponseCourse;
 import guild.elearning.response.ResponseObject;
@@ -19,6 +20,9 @@ import java.util.stream.Collectors;
 public class CourseService implements ICourseService {
     @Autowired
     private ICourseRepository iCourseRepository;
+
+    @Autowired
+    private ICourseImageRepository iCourseImageRepository;
 
     @Override
     public ResponseCourse getAllCourse(Integer page, Integer records, Map<String, String> filters) {

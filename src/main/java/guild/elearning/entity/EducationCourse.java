@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -31,7 +32,7 @@ public class EducationCourse {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date createdAt;
 
-    @OneToOne(mappedBy = "educationCourse")
+    @OneToMany(mappedBy = "educationCourse")
     @JsonBackReference(value="reference-course-education")
-    private Course course;
+    private List<Course> courses;
 }

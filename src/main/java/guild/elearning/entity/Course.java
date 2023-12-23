@@ -2,6 +2,7 @@ package guild.elearning.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -43,9 +44,6 @@ public class Course {
 
     private Integer count;
 
-
-    private LocalDate expired;
-
     private Boolean status;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -57,9 +55,9 @@ public class Course {
     @JsonManagedReference(value = "reference-course-thematic")
     private List<ThematicCourse> thematicCourses;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "educationID", referencedColumnName = "id", insertable=false, updatable=false)
-    @JsonManagedReference(value="reference-course-education")
+    @JsonIgnore
     private EducationCourse educationCourse;
 
     @OneToMany(mappedBy = "course")

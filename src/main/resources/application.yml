@@ -6,7 +6,7 @@ spring:
   main:
     allow-circular-references: true
   datasource:
-    url: jdbc:mysql://localhost:3306/elearning_course
+    url: jdbc:mysql://localhost:3306/elearning
     username: root
   #    password:
   jpa:
