@@ -12,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -36,12 +38,14 @@ public class JwtService {
         //add roles in to Claims;
         extraClaims.put("roles", roles);
         extraClaims.put("userID", userDetails.getId());
+        ZonedDateTime expirationTime = ZonedDateTime.now().plus(24, ChronoUnit.HOURS);
+        Date exprire = Date.from(expirationTime.toInstant());
 
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(exprire)
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }

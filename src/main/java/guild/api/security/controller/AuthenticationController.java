@@ -24,8 +24,8 @@ public class AuthenticationController implements IAuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(authService.login(request));
+    public AuthenticationResponse login(@RequestBody AuthenticationRequest request) {
+        return authService.login(request);
     }
 
     @Override

@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface IAuthController {
     public ResponseObject register(RegisterRequest request);
-    public ResponseEntity<AuthenticationResponse> login(AuthenticationRequest request);
+    public AuthenticationResponse login(AuthenticationRequest request);
     public ResponseObject logout(String token);
     public ResponseObject getUserID(String token);
 

@@ -35,6 +35,7 @@ public class Authentication {
     private Date expirationTime;
 
 
+
     @OneToOne
     @JoinColumn(name = "userID", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonManagedReference(value = "reference-authentication-user")

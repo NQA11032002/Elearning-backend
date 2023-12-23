@@ -1,20 +1,20 @@
 package guild.api.security.response;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-    private String token;
-    private Date expirationTime;
-    private Integer userID;
+public class CustomerResponse {
+    private Integer id;
+    private String fullName;
+    private String email;
+    private String phone;
+    private String city;
+    private String profilePictureURL;
     private String role;
 }

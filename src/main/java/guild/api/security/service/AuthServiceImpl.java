@@ -19,6 +19,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class AuthServiceImpl implements IAuthService {
     @Autowired
@@ -81,29 +83,30 @@ public class AuthServiceImpl implements IAuthService {
             var jwtToken = jwtService.generateToken(user);
 
             boolean checkToken = checkToken(user.getId());
-
+            Authentication authentication;
+            Date expire = jwtService.getExpirationTimeFromToken(jwtToken, jwtService.getSECRET_KEY());
             if(checkToken)
             {
-                Authentication authentication = iAuthenticationRepository.findAuthenticationByUserID(user.getId());
+                authentication = iAuthenticationRepository.findAuthenticationByUserID(user.getId());
 
                 authentication.setToken(jwtToken);
                 authentication.setUserID(user.getId());
 
-                authentication.setExpirationTime(jwtService.getExpirationTimeFromToken(jwtToken, jwtService.getSECRET_KEY()));
+                authentication.setExpirationTime(expire);
 
                 iAuthenticationRepository.save(authentication);
             }else
             {
-                Authentication authentication = new Authentication();
+                authentication = new Authentication();
                 authentication.setToken(jwtToken);
                 authentication.setUserID(user.getId());
-                authentication.setExpirationTime(jwtService.getExpirationTimeFromToken(jwtToken, jwtService.getSECRET_KEY()));
+                authentication.setExpirationTime(expire);
 
                 iAuthenticationRepository.save(authentication);
             }
 
+            return new AuthenticationResponse(jwtToken, expire, authentication.getUserID(), user.getRole());
 
-            return AuthenticationResponse.builder().token(jwtToken).build();
         } catch (AuthenticationException e) {
             // return AuthenticationResponse.builder().error("Invalid credentials").build();
             throw new RuntimeException("Authentication failed", e);
