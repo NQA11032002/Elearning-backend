@@ -28,6 +28,12 @@ public class CustomerController implements ICustomerController {
         return iCustomerService.findCustomerById(id);
     }
 
+    @Override
+    @GetMapping(path = "/user/{userID}")
+    public ResponseObject findCustomerByUserID(@PathVariable("userID") Integer userID) {
+        return iCustomerService.findCustomerByUserID(userID);
+    }
+
     @PostMapping(path = "")
     @Override
     public ResponseObject insertCustomer(@RequestBody Customer customer) {
