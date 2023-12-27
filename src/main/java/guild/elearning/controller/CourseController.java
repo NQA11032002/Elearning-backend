@@ -37,7 +37,7 @@ public class CourseController implements ICourseController {
     }
 
     @Override
-    @GetMapping(path = "user/{userID}")
+    @GetMapping(path = "/user/{userID}")
     public ResponseObject findCourseByUserID(@PathVariable("userID") Integer id) {
         return iCourseService.findCourseByUserID(id);
     }
