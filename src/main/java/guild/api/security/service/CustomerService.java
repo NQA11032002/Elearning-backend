@@ -96,7 +96,7 @@ public class CustomerService implements ICustomerService {
                 customerFound.get().setProfilePictureURL(customer.getProfilePictureURL());
                 customerFound.get().setUserID(customer.getUserID());
                 customerFound.get().setPhone(customer.getPhone());
-                customerFound.get().setCity(customer.getCity());
+                customerFound.get().setEmail(customer.getEmail());
 
                 iCustomerRepository.save(customerFound.get());
 
