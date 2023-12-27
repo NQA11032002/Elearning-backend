@@ -25,7 +25,9 @@ public class CustomerController implements ICustomerController {
     @Override
     @GetMapping(path = "/{id}")
     public ResponseObject findCustomerById(@PathVariable("id") Integer id) {
+        System.out.println("av");
         return iCustomerService.findCustomerById(id);
+
     }
 
     @Override
