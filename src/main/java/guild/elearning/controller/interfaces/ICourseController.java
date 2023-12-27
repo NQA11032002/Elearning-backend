@@ -12,6 +12,7 @@ import java.util.Map;
 public interface ICourseController {
     public ResponseCourse getAllCourse(Integer page, Integer records, Map<String, String> filters);
     public ResponseObject findCourseByID(Integer id);
+    public ResponseObject findCourseByUserID(Integer id);
     public ResponseObject findCourseByTitle(String title);
     public ResponseObject insertCourse(Course course);
     public ResponseObject updateCourse(Course course);

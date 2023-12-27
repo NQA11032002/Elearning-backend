@@ -100,6 +100,17 @@ public class CourseService implements ICourseService {
     }
 
     @Override
+    public ResponseObject findCourseByUserID(Integer userID) {
+        var course = iCourseRepository.findByUserID(userID);
+
+        if (!course.isEmpty()) {
+            return new ResponseObject(HttpStatus.NOT_FOUND.name(), "No course found with the given ID: " + userID, course);
+        }
+
+        return new ResponseObject(HttpStatus.OK.name(), "Found course with the given ID: " + userID, course);
+    }
+
+    @Override
     public ResponseObject findCourseByTitle(String title) {
         var course = iCourseRepository.findByTitleContaining(title);
 

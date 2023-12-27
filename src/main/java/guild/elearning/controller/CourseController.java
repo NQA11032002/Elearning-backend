@@ -37,6 +37,12 @@ public class CourseController implements ICourseController {
     }
 
     @Override
+    @GetMapping(path = "user/{userID}")
+    public ResponseObject findCourseByUserID(@PathVariable("userID") Integer id) {
+        return iCourseService.findCourseByUserID(id);
+    }
+
+    @Override
     @PostMapping("")
     public ResponseObject insertCourse(@RequestBody Course course) {
         return iCourseService.insertCourse(course);

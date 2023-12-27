@@ -12,6 +12,7 @@ public interface ICourseService {
     public ResponseCourse getAllCourse(Integer page, Integer records, Map<String, String> filters);
     public int getTotalPage(Integer records);
     public ResponseObject findCourseByID(Integer id);
+    public ResponseObject findCourseByUserID(Integer id);
     public ResponseObject findCourseByTitle(String title);
     public ResponseObject insertCourse(Course course);
     public ResponseObject updateCourse(Course course);

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ICourseRepository extends JpaRepository<Course, Integer> {
     public List<Course> findByTitleContaining(String title);
+    public List<Course> findByUserID(Integer userID);
 }
