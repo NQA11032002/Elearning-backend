@@ -45,6 +45,17 @@ public class CustomerService implements ICustomerService {
         return new ResponseObject(HttpStatus.OK.name(), "Not found any customer", customer);
     }
 
+    @Override
+    public ResponseObject findCustomerByUserID(Integer userID) {
+        var customer = iCustomerRepository.findByUserID(userID);
+
+        if (customer != null) {
+            return new ResponseObject(HttpStatus.OK.name(), "Found a customer in list", customer);
+        }
+
+        return new ResponseObject(HttpStatus.OK.name(), "Not found any customer", customer);
+    }
+
 
     public void registerCustomer(RegisterRequest request) {
         var customer = Customer.builder().userID(request.getUserID()).fullName(request.getFullName()).phone(request.getPhone()).build();
