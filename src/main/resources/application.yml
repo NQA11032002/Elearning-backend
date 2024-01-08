@@ -6,7 +6,7 @@ spring:
   main:
     allow-circular-references: true
   datasource:
-    url: jdbc:mysql://localhost:3306/elearning
+    url: jdbc:mysql://localhost:3306/elearning_course
     username: root
   #    password:
   jpa:
@@ -22,8 +22,8 @@ server:
 
 #AWS credentials
 aws:
-  accessKey: AKIAWHE75AJY6B353JG7
-  secretKey: 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
-  region: ap-southeast-1
+  accessKey: *
+  secretKey: *
+  region: *
   s3:
-    bucket: elearning-media-2023
+    bucket: *
