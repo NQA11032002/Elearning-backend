@@ -51,7 +51,6 @@ public class JwtService {
     }
 
     public Integer getUserID(String token){
-        // Extract "userID" from the JWT token
         return this.extractClaim(token, claims -> claims.get("userID", Integer.class));
     }
 
