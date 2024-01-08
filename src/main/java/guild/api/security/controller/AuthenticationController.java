@@ -6,6 +6,7 @@ import guild.api.security.request.RegisterRequest;
 import guild.api.security.response.AuthenticationResponse;
 import guild.api.security.response.ResponseObject;
 import guild.api.security.service.interfaces.IAuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +38,16 @@ public class AuthenticationController implements IAuthController {
     }
 
     @Override
-    @PostMapping("/getUserID")
-    public ResponseObject getUserID(@RequestParam("token") String token) {
-        token = token.replace("\"", "");
-        return authService.getUserID(token);
+    @GetMapping("/getUserID")
+    public ResponseObject getUserID(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+        System.out.println(authorizationHeader);
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            token = token.replace("\"", "");
+
+            return authService.getUserID(token);
+        }
+        return authService.getUserID(null);
     }
 }
