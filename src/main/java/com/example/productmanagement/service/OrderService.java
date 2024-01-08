@@ -63,7 +63,7 @@ public class OrderService implements IOrderService{
         var response = ioderRepository.findById(userID);
         Order order = response.get();
         if(response.isPresent()){
-            return new ResponseObject(HttpStatus.NOT_FOUND.name(), "Found order in the course table", order);
+            return new ResponseObject(HttpStatus.OK.name(), "Found order in the course table", order);
         }
         return new ResponseObject(HttpStatus.NOT_FOUND.name(), "No orders found in the course table", order);
     }
@@ -71,12 +71,11 @@ public class OrderService implements IOrderService{
     @Override
     public ResponseObject insertOrder(Order order) {
         try {
-            ioderRepository.save(order);
+            Order savedOrder = ioderRepository.save(order);
 
-            return new ResponseObject(HttpStatus.CREATED.name(), "Insert new order successful", order);
+            return new ResponseObject(HttpStatus.CREATED.name(), "Insert new order successful", savedOrder);
         } catch (Exception e) {
             return new ResponseObject(HttpStatus.BAD_REQUEST.name(), "Insert new order failed", e.getMessage());
-
         }
     }
 
