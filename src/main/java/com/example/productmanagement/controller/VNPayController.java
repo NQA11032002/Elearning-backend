@@ -62,7 +62,8 @@ public class VNPayController {
                     payment.setPaymentMethod(vnp_BankCode);
                     paymentService.insertPayment(payment);
 
-                    response.sendRedirect("http://localhost:8080/payment/" + courseID + "?isPay=true");
+                    response.sendRedirect("http://localhost:8080/payment/" + courseID
+                    );
                 }
             } else {
                 // Giao dịch thất bại
